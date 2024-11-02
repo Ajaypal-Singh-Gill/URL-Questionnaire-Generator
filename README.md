@@ -6,7 +6,6 @@ A tool that takes a website URL as input, scrapes its content, and generates a d
 
 - [Technologies Used](#technologies-used)
 - [Features](#features)
-- [Screenshots](#screenshots)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -17,6 +16,7 @@ A tool that takes a website URL as input, scrapes its content, and generates a d
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
 - [License](#license)
+- [Future Work](#future-work)
 
 ## Technologies Used
 
@@ -178,3 +178,7 @@ Accepts a URL, scrapes content, and generates a set of questions based on the co
 ## License
 
 This project is licensed under the MIT License.
+
+## Future Work
+
+- **Real-Time Questionnaire Injection**: Develop a browser extension or embeddable JavaScript to allow questionnaires to pop up automatically when a user visits a specific website.

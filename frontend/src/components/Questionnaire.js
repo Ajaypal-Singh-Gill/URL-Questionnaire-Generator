@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { generateQuestion, resetQuestion } from "../redux/actions"; // Import reset action
+import { generateQuestion, resetQuestion } from "../redux/actions";
 import "./Questionnaire.css";
 
 const Questionnaire = () => {
@@ -13,7 +13,7 @@ const Questionnaire = () => {
   const handleSubmitForm = (e) => {
     e.preventDefault();
     if (!url) {
-      dispatch(resetQuestion()); // Reset questions if URL is empty
+      dispatch(resetQuestion());
     } else {
       dispatch(generateQuestion(url));
     }
@@ -22,7 +22,7 @@ const Questionnaire = () => {
   const handleURLChange = (e) => {
     setUrl(e.target.value);
     if (!e.target.value) {
-      dispatch(resetQuestion()); // Reset questions if URL is cleared
+      dispatch(resetQuestion());
     }
   };
 
@@ -68,7 +68,7 @@ const Questionnaire = () => {
             type="text"
             className="url-input"
             value={url}
-            onChange={handleURLChange} // Update URL change handler
+            onChange={handleURLChange}
             placeholder="Enter website URL"
             required
           />

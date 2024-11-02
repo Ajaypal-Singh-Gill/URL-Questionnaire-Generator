@@ -31,7 +31,7 @@ def generate_intent_based_questions(text_content):
     
     response = client.chat.completions.create(
         model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}]  # Correct format for `messages`
+        messages=[{"role": "user", "content": prompt}]
     )
 
     # For testing purposes
