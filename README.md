@@ -182,3 +182,5 @@ This project is licensed under the MIT License.
 ## Future Work
 
 - **Real-Time Questionnaire Injection**: Develop a browser extension or embeddable JavaScript to allow questionnaires to pop up automatically when a user visits a specific website.
+
+- **Async Web Scraping**:Implement asynchronous web scraping capabilities, allowing scraping tasks to run in the background and return results as they complete.
