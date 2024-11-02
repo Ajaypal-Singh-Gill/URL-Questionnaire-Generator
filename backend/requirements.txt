@@ -1,0 +1,8 @@
+Flask
+scrapy
+beautifulsoup4
+nltk
+flask-cors
+torch
+transformers
+openai
