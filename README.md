@@ -15,7 +15,6 @@ A tool that takes a website URL as input, scrapes its content, and generates a d
   - [Backend](#backend)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
-- [License](#license)
 - [Future Work](#future-work)
 
 ## Technologies Used
@@ -174,10 +173,6 @@ Accepts a URL, scrapes content, and generates a set of questions based on the co
    ```
 
 4. Push to your fork and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
 
 ## Future Work
 
