@@ -10,6 +10,7 @@ A tool that takes a website URL as input, scrapes its content and generates a dy
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Screenshots](#Screenshots)
 - [Project Structure](#project-structure)
   - [Frontend](#frontend)
   - [Backend](#backend)
@@ -94,6 +95,14 @@ Set up the following environment variables for the backend directly in your syst
 1. Open the app in the browser.
 2. Enter a website URL to start the questionnaire generation process.
 3. Answer the generated questions.
+
+## Screenshots
+
+<img width="1436" alt="image" src="https://github.com/user-attachments/assets/914647b6-3615-4ee4-af39-498d5ae02e74">
+
+<img width="1437" alt="image" src="https://github.com/user-attachments/assets/72fd8e81-a7a4-464d-a60a-baf8459ade9b">
+
+<img width="1436" alt="image" src="https://github.com/user-attachments/assets/dc8cfaae-a597-416e-bc7f-ebdcbb075f0c">
 
 ## Project Structure
 
