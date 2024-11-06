@@ -1,6 +1,6 @@
-# Brave Assessment
+# URL-Questionnaire-Generator
 
-A tool that takes a website URL as input, scrapes its content, and generates a dynamic questionnaire to classify users based on their interests or industry. This application is built with a React/Redux frontend and a Python/Flask backend.
+A tool that takes a website URL as input, scrapes its content and generates a dynamic questionnaire to classify users based on their interests or industry. This application is built with a React/Redux frontend and a Python/Flask backend.
 
 ## Table of Contents
 
