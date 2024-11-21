@@ -1,65 +1,55 @@
-from models import URLRecord, ContentRecord
-from utils.scraping_utils import run_scrapy_spider, read_scraped_content
-from services.intent_question_generator import clean_scraped_content, generate_intent_based_questions, parse_questions_and_options
 import logging
 import json
-import pdb
+from services.cache_service import get_cached_data, set_cache_data
+from services.db_service import (
+    get_url_record,
+    create_url_record,
+    update_url_record_status,
+    get_content_record,
+    create_content_record,
+)
+from services.tasks import scrape_and_generate_questions
 
 def process_question_generation(db, url, save_to_db):
-    logging.debug(f"Processing question generation for URL: {url}")
+    logging.info(f"Starting question generation for URL: {url}")
 
-    # Check if URL is already in the database if saving is required
+    # Step 1: Check Redis cache
+    cached_data = get_cached_data(url)
+    if cached_data:
+        logging.info(f"Cache hit for URL: {url} - Status: {cached_data.get('status')}")
+        if cached_data.get('status') == "completed":
+            return {'questions': cached_data['questions']}
+        elif cached_data.get('status') == "in_progress":
+            logging.info(f"Scraping is still in progress for URL: {url}")
+            return {'questions': []}  # Empty response while in progress
+            
+    # Step 2: Check database
+    url_record = get_url_record(db, url)
+    if url_record:
+        logging.info(f"Database record found for URL: {url} - Status: {url_record.status}")
+        if url_record.status == "completed":
+            content_record = get_content_record(db, url_record.id)
+            if content_record:
+                questions = json.loads(content_record.questions)
+                set_cache_data(url, {'status': "completed", 'questions': questions})
+                return {'questions': questions}
+        elif url_record.status == "in_progress":
+            set_cache_data(url, {'status': "in_progress"})
+            logging.info(f"Scraping is still in progress for URL: {url} (from database)")
+            return {'questions': []}  # Empty response while in progress
+
+    # Step 3: Create URL record (if needed)
     if save_to_db:
-        # pdb.set_trace() 
-        url_record = db.query(URLRecord).filter(URLRecord.url == url).first()
-        if url_record:
-            if url_record.status == "completed":
-                # Fetch and parse questions from JSON format
-                content_record = db.query(ContentRecord).filter(ContentRecord.url_id == url_record.id).first()
-                if content_record:
-                    questions = json.loads(content_record.questions)  # Parse JSON
-                    return {'questions': questions}
-                
-                # TODO: Handle In-progress flow as well.
+        url_record = create_url_record(db, url, "in_progress")
 
-        # Add a new URL record to track scraping status
-        new_url_record = URLRecord(url=url, status="in_progress")
-        db.add(new_url_record)
-        db.commit()
-        db.refresh(new_url_record)
-    else:
-        logging.debug(f"Skipping database save for URL {url}")
+    # Step 4: Trigger Celery task
+    logging.info(f"Triggering Celery task for URL: {url}")
+    try:
+        task = scrape_and_generate_questions.delay(url, save_to_db, url_record.id if url_record else None)
+        set_cache_data(url, {'status': "in_progress", 'task_id': task.id}, expiry=3600)
+    except Exception as e:
+        logging.error(f"Error triggering Celery task for URL: {url}: {str(e)}")
+        set_cache_data(url, {'status': "failed"}, expiry=300)  # Short TTL for failure
+        return {'questions': []}  # Empty response on error
 
-    # Run scraping and handle errors
-    if not run_scrapy_spider(url):
-        if save_to_db:
-            new_url_record.status = "failed"
-            db.commit()
-            logging.error("Failed to scrape the URL. Please try again later.")
-        return {'questions': []}
-
-    # Process scraped content
-    scraped_content = read_scraped_content()
-    if scraped_content is None:
-        if save_to_db:
-            new_url_record.status = "failed"
-            db.commit()
-            logging.error("Failed to scrape the URL. Please try again later.")
-        return {'questions': []}
-
-    # Generate questions
-    text_content = clean_scraped_content(scraped_content)
-    response_message = generate_intent_based_questions(text_content)
-    questions = parse_questions_and_options(response_message)
-
-    if save_to_db:
-        # Store questions in JSON format
-        questions_json = json.dumps(questions)  # Convert list to JSON string
-        new_content_record = ContentRecord(url_id=new_url_record.id, content='', questions=questions_json)
-        db.add(new_content_record)
-        
-        # Update URL record status to "completed"
-        new_url_record.status = "completed"
-        db.commit()
-
-    return {'questions': questions}
+    return {'questions': []}  # Empty response while the task is running

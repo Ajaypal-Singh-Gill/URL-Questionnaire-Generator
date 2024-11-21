@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
 
-DATABASE_URL = os.getenv('DATABASE_URL', 'postgresql://postgres:postgres@localhost:5433/scraper_db')
+DATABASE_URL = os.getenv('POSTGRES_URL')
 
 # Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL)

@@ -37,9 +37,10 @@ def generate_intent_based_questions(text_content):
     # For testing purposes
     # response = MockChatCompletion()
 
-    print("response", response)
     
     response_message = response.choices[0].message.content.strip()
+    print("response_message", response_message)
+
     
     return response_message
 

@@ -77,7 +77,7 @@ const Questionnaire = () => {
           </button>
         </form>
 
-        {questionData.loading && <div className="loading-text">Loading...</div>}
+        {questionData.loading && <div className="loading-text"></div>}
         {questionData.questions && questionData.questions.length > 0 && (
           <div className="question-card">
             <h2 className="question-title">
