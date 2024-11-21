@@ -1,6 +1,6 @@
-# Brave Assessment
+# URL-Questionnaire-Generator
 
-A tool that takes a website URL as input, scrapes its content, and generates a dynamic questionnaire to classify users based on their interests or industry. This application is built with a React/Redux frontend and a Python/Flask backend.
+A tool that takes a website URL as input, scrapes its content and generates a dynamic questionnaire to classify users based on their interests or industry. This application is built with a React/Redux frontend and a Python/Flask backend.
 
 ## Table of Contents
 
@@ -10,12 +10,12 @@ A tool that takes a website URL as input, scrapes its content, and generates a d
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
+- [Screenshots](#Screenshots)
 - [Project Structure](#project-structure)
   - [Frontend](#frontend)
   - [Backend](#backend)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
-- [License](#license)
 - [Future Work](#future-work)
 
 ## Technologies Used
@@ -96,6 +96,14 @@ Set up the following environment variables for the backend directly in your syst
 2. Enter a website URL to start the questionnaire generation process.
 3. Answer the generated questions.
 
+## Screenshots
+
+<img width="1436" alt="image" src="https://github.com/user-attachments/assets/914647b6-3615-4ee4-af39-498d5ae02e74">
+
+<img width="1437" alt="image" src="https://github.com/user-attachments/assets/72fd8e81-a7a4-464d-a60a-baf8459ade9b">
+
+<img width="1436" alt="image" src="https://github.com/user-attachments/assets/dc8cfaae-a597-416e-bc7f-ebdcbb075f0c">
+
 ## Project Structure
 
 ### Frontend
@@ -174,10 +182,6 @@ Accepts a URL, scrapes content, and generates a set of questions based on the co
    ```
 
 4. Push to your fork and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
 
 ## Future Work
 
