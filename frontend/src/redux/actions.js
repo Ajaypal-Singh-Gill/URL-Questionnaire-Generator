@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const BASE_URL = process.env.BE_BASE_URL || "http://localhost:5001";
+
 export const generateQuestion = (url) => async (dispatch) => {
   try {
     dispatch({ type: "GENERATE_QUESTION_REQUEST" });
@@ -12,7 +14,7 @@ export const generateQuestion = (url) => async (dispatch) => {
 
     // Step 1: Trigger the question generation
     const response = await axios.post(
-      "http://localhost:5001/generate-question",
+      `${BASE_URL}/generate-question`,
       { url, save_to_db: true },
       config
     );
@@ -21,7 +23,7 @@ export const generateQuestion = (url) => async (dispatch) => {
     const pollForQuestions = async () => {
       try {
         const resultResponse = await axios.post(
-          "http://localhost:5001/generate-question",
+          `${BASE_URL}/generate-question`,
           { url, save_to_db: false }, // Same endpoint but don't re-trigger task
           config
         );
