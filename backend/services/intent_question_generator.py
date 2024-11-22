@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from openai import OpenAI
 import nltk
-from tests.MockResponse import MockChatCompletion
+from .mock_response import MockChatCompletion
 import os
 nltk.download('punkt')
 nltk.download('stopwords')

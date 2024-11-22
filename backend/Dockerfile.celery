@@ -1,0 +1,15 @@
+# Base Python image
+FROM --platform=linux/amd64 python:3.8-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the application code
+COPY . /app/
+
+# Command to run Celery worker
+CMD ["celery", "-A", "celery_config.app", "worker", "--loglevel=info"]
