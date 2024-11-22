@@ -6,10 +6,16 @@ WORKDIR /app
 
 # Install dependencies
 COPY requirements.txt /app/
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt && pip list
+
+# ENV PYTHONPATH=app
 
 # Copy the application code
 COPY . /app/
 
+# CMD ["python", "-c", "from scrapy.crawler import CrawlerProcess; print('Scrapy is working!')"]
+
 # Command to run Celery worker
-CMD ["celery", "-A", "celery_config.app", "worker", "--loglevel=info"]
+CMD sh -c "PYTHONPATH=$(pwd) celery -A celery_config.app worker --loglevel=info & python -m http.server 5000"
+
+# docker build -t ajaypalgill/celery-worker -f Dockerfile.celery .

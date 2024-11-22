@@ -72,12 +72,19 @@ const Questionnaire = () => {
             placeholder="Enter website URL"
             required
           />
-          <button type="submit" className="btn-primary">
-            Start Questionnaire
-          </button>
+          {!questionData.loading && (
+            <button type="submit" className="btn-primary">
+              Start Questionnaire
+            </button>
+          )}
         </form>
 
-        {questionData.loading && <div className="loading-text"></div>}
+        {questionData.loading && (
+          <div className="loading-text">
+            We are processing your request. You will be presented with a
+            questionnaire once the process has been completed.
+          </div>
+        )}
         {questionData.questions && questionData.questions.length > 0 && (
           <div className="question-card">
             <h2 className="question-title">
