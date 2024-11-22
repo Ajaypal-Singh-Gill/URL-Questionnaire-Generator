@@ -55,4 +55,4 @@ def scrape_and_generate_questions(self, url, save_to_db, url_record_id=None):
         # set_cache_data(url, {'status': "failed"}, expiry=300)  # Short TTL for failure
         # if save_to_db and url_record_id:
         #     update_url_record_status(None, url_record_id, "failed")
-        raise e  # Re-raise the error to log and report it
+        raise e

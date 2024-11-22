@@ -4,9 +4,7 @@ from services.cache_service import get_cached_data, set_cache_data
 from services.db_service import (
     get_url_record,
     create_url_record,
-    update_url_record_status,
     get_content_record,
-    create_content_record,
 )
 from services.tasks import scrape_and_generate_questions
 

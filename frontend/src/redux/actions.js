@@ -12,12 +12,12 @@ export const generateQuestion = (url) => async (dispatch) => {
       },
     };
 
-    // Step 1: Trigger the question generation
-    const response = await axios.post(
-      `${BASE_URL}/generate-question`,
-      { url, save_to_db: true },
-      config
-    );
+    // // Step 1: Trigger the question generation
+    // const response = await axios.post(
+    //   `${BASE_URL}/generate-question`,
+    //   { url, save_to_db: true },
+    //   config
+    // );
 
     // Step 2: Poll the backend until questions are populated
     const pollForQuestions = async () => {

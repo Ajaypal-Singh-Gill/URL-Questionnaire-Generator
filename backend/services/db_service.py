@@ -18,12 +18,10 @@ def update_url_record_status(db, url_record_id, status):
     """
     Update the status of a URL record by its ID.
     """
-    # Query the URL record using the ID
     url_record = db.query(URLRecord).filter_by(id=url_record_id).first()
     if not url_record:
         raise ValueError(f"No URL record found with ID: {url_record_id}")
 
-    # Update the status
     url_record.status = status
     db.commit()
 
