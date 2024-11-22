@@ -3,6 +3,9 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.settings import Settings
 from twisted.internet import reactor
 import sys
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
 
 class ContentSpider(scrapy.Spider):
     name = 'content_spider'
@@ -40,6 +43,7 @@ if __name__ == "__main__":
         print(f"An error occurred: {e}")
 
     finally:
+        logging.info(f"Reactor stopped")
         if reactor.running:
             reactor.callFromThread(reactor.stop)
 
