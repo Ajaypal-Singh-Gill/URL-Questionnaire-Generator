@@ -7,7 +7,7 @@ logging.basicConfig(level=logging.DEBUG)
 def run_scrapy_spider(url):
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        scrapy_script = os.path.join(current_dir, 'run_scrapy.py')
+        scrapy_script = os.path.join(current_dir, '../services/run_scrapy.py')
         scrapy_script = os.path.normpath(scrapy_script)
 
         process = subprocess.Popen(
