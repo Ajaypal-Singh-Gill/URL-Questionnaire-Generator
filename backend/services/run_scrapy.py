@@ -2,6 +2,7 @@ import scrapy
 from scrapy.crawler import CrawlerProcess
 from twisted.internet import reactor
 import sys
+from scrapy.settings import Settings
 
 class ContentSpider(scrapy.Spider):
     name = 'content_spider'
@@ -17,7 +18,8 @@ class ContentSpider(scrapy.Spider):
 
 def handle_error(failure):
     print(f"An error occurred: {failure}")
-    reactor.stop()
+    if reactor.running:
+        reactor.stop()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -26,8 +28,17 @@ if __name__ == "__main__":
     
     url = sys.argv[1]
 
-    process = CrawlerProcess()
-    deferred = process.crawl(ContentSpider, url=url)
-    deferred.addErrback(handle_error)
-    deferred.addBoth(lambda _: reactor.stop())  # Ensure reactor stops after completion
-    reactor.run()
+    settings = Settings({
+        'TELNETCONSOLE_ENABLED': False,
+        'RETRY_ENABLED': True,
+        'RETRY_TIMES': 5,
+        'DOWNLOAD_TIMEOUT': 60,
+        'LOG_LEVEL': 'DEBUG',
+
+    })
+    if not reactor.running:
+        process = CrawlerProcess(settings=settings)
+        deferred = process.crawl(ContentSpider, url=url)
+        deferred.addErrback(handle_error)
+        deferred.addBoth(lambda _: reactor.stop())
+        reactor.run()
