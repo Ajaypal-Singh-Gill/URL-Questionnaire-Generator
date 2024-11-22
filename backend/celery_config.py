@@ -8,14 +8,14 @@ print("CELERY_REDIS_BROKER_URL:", os.getenv('CELERY_REDIS_BROKER_URL'))
 print("CELERY_REDIS_BACKEND_URL:", os.getenv('CELERY_REDIS_BACKEND_URL'))
 
 app = Celery('backend', broker=os.getenv('CELERY_REDIS_BROKER_URL'), backend=os.getenv('CELERY_REDIS_BACKEND_URL'))
-app.conf.update(
-    broker_use_ssl={
-        'ssl_cert_reqs': 'CERT_NONE'
-    },
-    result_backend_use_ssl={
-        'ssl_cert_reqs': 'CERT_NONE'
-    }
-)
+# app.conf.update(
+#     broker_use_ssl={
+#         'ssl_cert_reqs': 'CERT_NONE'
+#     },
+#     result_backend_use_ssl={
+#         'ssl_cert_reqs': 'CERT_NONE'
+#     }
+# )
 
 def init_celery(flask_app):
     app.conf.update(
