@@ -1,48 +1,43 @@
 import subprocess
 import logging
 import os
-import psutil
 
 logging.basicConfig(level=logging.DEBUG)
 
-def force_kill_subprocess(pid):
-    try:
-        parent = psutil.Process(pid)
-        for child in parent.children(recursive=True):
-            child.kill()  # Kill child processes
-        parent.kill()  # Kill the parent process
-        logging.info(f"Successfully killed subprocess with PID {pid}")
-    except psutil.NoSuchProcess:
-        logging.warning(f"No such process with PID {pid}")
-
 def run_scrapy_spider(url):
+    """
+    Runs a Scrapy spider script as a subprocess and captures its output.
+    """
     try:
+        # Resolve the path to the Scrapy script
         current_dir = os.path.dirname(os.path.abspath(__file__))
         scrapy_script = os.path.join(current_dir, '../services/run_scrapy.py')
         scrapy_script = os.path.normpath(scrapy_script)
 
+        # Launch the Scrapy script as a subprocess
         process = subprocess.Popen(
             ['python', scrapy_script, url],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
 
-        # Monitor progress
+        # Wait for the process to complete and capture its output
         stdout, stderr = process.communicate()
         if process.returncode == 0:
             logging.info(f"Scrapy completed successfully for URL: {url}")
-            force_kill_subprocess(process.pid)
-            return True
+            return stdout.decode()  # Return the scraped content or success message
         else:
             logging.error(f"Scrapy failed for URL {url} with error: {stderr.decode()}")
-            return False
+            return None
     except Exception as e:
         logging.error(f"Failed to run Scrapy subprocess for URL {url}: {e}")
-        return False
+        return None
 
 
 def read_scraped_content():
-    """Read the content scraped by Scrapy from file."""
+    """
+    Reads the content scraped by Scrapy from the default file location.
+    """
     try:
         with open('scraped_content.txt', 'r', encoding='utf-8') as f:
             return f.read()
