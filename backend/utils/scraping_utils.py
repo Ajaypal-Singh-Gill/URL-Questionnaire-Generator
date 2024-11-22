@@ -9,28 +9,23 @@ def run_scrapy_spider(url):
     Runs a Scrapy spider script as a subprocess and captures its output.
     """
     try:
-        # Resolve the path to the Scrapy script
         current_dir = os.path.dirname(os.path.abspath(__file__))
         scrapy_script = os.path.join(current_dir, '../services/run_scrapy.py')
         scrapy_script = os.path.normpath(scrapy_script)
-
-        # Launch the Scrapy script as a subprocess
-        process = subprocess.Popen(
+        result = subprocess.run(
             ['python', scrapy_script, url],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+            capture_output=True,
+            text=True
         )
-
-        # Wait for the process to complete and capture its output
-        stdout, stderr = process.communicate()
-        if process.returncode == 0:
+        if result.returncode == 0:
             logging.info(f"Scrapy completed successfully for URL: {url}")
-            return stdout.decode()  # Return the scraped content or success message
+            print(f"Scraped content:\n{result.stdout}")  # Print the scraped content
+            return result.stdout  # Return the scraped content
         else:
-            logging.error(f"Scrapy failed for URL {url} with error: {stderr.decode()}")
+            logging.error(f"Scrapy failed for URL {url} with error: {result.stderr}")
             return None
     except Exception as e:
-        logging.error(f"Failed to run Scrapy subprocess for URL {url}: {e}")
+        logging.error(f"Error running Scrapy spider for URL {url}: {e}")
         return None
 
 
