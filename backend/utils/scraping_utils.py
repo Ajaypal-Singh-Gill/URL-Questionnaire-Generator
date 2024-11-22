@@ -1,8 +1,19 @@
 import subprocess
 import logging
 import os
+import psutil
 
 logging.basicConfig(level=logging.DEBUG)
+
+def force_kill_subprocess(pid):
+    try:
+        parent = psutil.Process(pid)
+        for child in parent.children(recursive=True):
+            child.kill()  # Kill child processes
+        parent.kill()  # Kill the parent process
+        logging.info(f"Successfully killed subprocess with PID {pid}")
+    except psutil.NoSuchProcess:
+        logging.warning(f"No such process with PID {pid}")
 
 def run_scrapy_spider(url):
     try:
@@ -20,6 +31,7 @@ def run_scrapy_spider(url):
         stdout, stderr = process.communicate()
         if process.returncode == 0:
             logging.info(f"Scrapy completed successfully for URL: {url}")
+            force_kill_subprocess(process.pid)
             return True
         else:
             logging.error(f"Scrapy failed for URL {url} with error: {stderr.decode()}")
