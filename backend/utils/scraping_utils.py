@@ -8,7 +8,7 @@ def run_scrapy_spider(url):
     """Run Scrapy spider as a subprocess."""
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        scrapy_script = os.path.join(current_dir, '../scrapy/run_scrapy.py')
+        scrapy_script = os.path.join(current_dir, '../services/run_scrapy.py')
         
         scrapy_script = os.path.normpath(scrapy_script)
         subprocess.run(['python', scrapy_script, url], check=True)
