@@ -9,14 +9,17 @@ def run_scrapy_spider(url):
     Runs a Scrapy spider script as a subprocess and captures its output.
     """
     try:
+        logging.info(f"Inside scrapy spider: {url}")
         current_dir = os.path.dirname(os.path.abspath(__file__))
         scrapy_script = os.path.join(current_dir, '../services/run_scrapy.py')
         scrapy_script = os.path.normpath(scrapy_script)
+        logging.debug(f"Resolved Scrapy script path: {scrapy_script}")
         result = subprocess.run(
             ['python', scrapy_script, url],
             capture_output=True,
             text=True
         )
+
         if result.returncode == 0:
             logging.info(f"Scrapy completed successfully for URL: {url}")
             print(f"Scraped content:\n{result.stdout}")  # Print the scraped content
