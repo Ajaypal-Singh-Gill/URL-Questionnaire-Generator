@@ -12,9 +12,9 @@ const Questionnaire = () => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-    if (!url) {
-      dispatch(resetQuestion());
-    } else {
+    dispatch(resetQuestion());
+
+    if (url) {
       dispatch(generateQuestion(url));
     }
   };

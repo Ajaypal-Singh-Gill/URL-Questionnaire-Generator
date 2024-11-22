@@ -1,5 +1,6 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
+from twisted.internet import reactor
 import sys
 
 class ContentSpider(scrapy.Spider):
@@ -14,6 +15,10 @@ class ContentSpider(scrapy.Spider):
         with open('scraped_content.txt', 'w', encoding='utf-8') as f:
             f.write(response.text)
 
+def handle_error(failure):
+    print(f"An error occurred: {failure}")
+    reactor.stop()
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Please provide a URL to scrape.")
@@ -22,5 +27,7 @@ if __name__ == "__main__":
     url = sys.argv[1]
 
     process = CrawlerProcess()
-    process.crawl(ContentSpider, url=url)
-    process.start()
+    deferred = process.crawl(ContentSpider, url=url)
+    deferred.addErrback(handle_error)
+    deferred.addBoth(lambda _: reactor.stop())  # Ensure reactor stops after completion
+    reactor.run()
