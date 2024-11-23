@@ -11,12 +11,8 @@ A tool that takes a website URL as input, scrapes its content and generates a dy
   - [Installation](#installation)
 - [Usage](#usage)
 - [Screenshots](#Screenshots)
-- [Project Structure](#project-structure)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
-- [Future Work](#future-work)
 - [Live Demo](#live-demo)
 
 ## Technologies Used
@@ -71,9 +67,8 @@ Start the Flask server:
 python app.py
 ```
 
-Option 1: Run inside docker
-
 Option 2: Run with Docker
+
 Ensure Docker is installed and running on your machine. Build the Docker image:
 
 ```bash
@@ -110,18 +105,6 @@ The app should be running with:
 
 - **Frontend**: [http://localhost:3000](http://localhost:3000)
 - **Backend**: [http://localhost:5001](http://localhost:5001)
-
-### Environment Variables
-
-Set up the following environment variables for the backend directly in your system environment:
-
-- **OPENAI_API_KEY**
-- **POSTGRES_URL**
-- **REDIS_URL**
-- **CELERY_REDIS_BROKER_URL**
-- **CELERY_REDIS_BACKEND_URL**
-- **FE_URL**
-- **ENV**
 
 ## Usage
 
