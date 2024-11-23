@@ -116,6 +116,8 @@ The app should be running with:
 
 <img width="1435" alt="image" src="https://github.com/user-attachments/assets/ae547e95-cc07-44e0-b633-13d220b2b12f">
 
+<img width="891" alt="image" src="https://github.com/user-attachments/assets/b21713f1-3d4e-4297-9b92-156fdb7df892">
+
 
 ## Project Structure
 
