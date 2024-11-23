@@ -1,21 +1,12 @@
-# Base Python image
 FROM --platform=linux/amd64 python:3.8-slim
 
-# Set working directory
 WORKDIR /app
 
-# Install dependencies
+RUN pip install psutil
+
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt && pip list
 
-# ENV PYTHONPATH=app
-
-# Copy the application code
 COPY . /app/
 
-# CMD ["python", "-c", "from scrapy.crawler import CrawlerProcess; print('Scrapy is working!')"]
-
-# Command to run Celery worker
-CMD sh -c "PYTHONPATH=$(pwd) celery -A celery_config.app worker --loglevel=info & python -m http.server 5000"
-
-# docker build -t ajaypalgill/celery-worker -f Dockerfile.celery .
+CMD sh -c "PYTHONPATH=$(pwd) celery -A celery_config.app worker --loglevel=info -E --pool=solo & python -m http.server 5000"

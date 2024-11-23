@@ -244,3 +244,20 @@ input[type="radio"] {
     gap: 10px;
   }
 }
+.url-info {
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0;
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary.btn-disabled {
+  background-color: #ccc; /* Dimmed color */
+  color: #666;
+  cursor: not-allowed;
+}

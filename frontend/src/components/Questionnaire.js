@@ -7,8 +7,14 @@ const Questionnaire = () => {
   const [url, setUrl] = useState("");
   const dispatch = useDispatch();
   const questionData = useSelector((state) => state?.question);
+  const [isUrlValid, setIsUrlValid] = useState(true);
   const [responses, setResponses] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  const validateUrl = (url) => {
+    const regex = /^(https?:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(\/[^\s]*)?$/;
+    return regex.test(url);
+  };
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -20,8 +26,16 @@ const Questionnaire = () => {
   };
 
   const handleURLChange = (e) => {
-    setUrl(e.target.value);
-    if (!e.target.value) {
+    const inputUrl = e.target.value;
+    setUrl(inputUrl);
+
+    if (inputUrl && !validateUrl(inputUrl)) {
+      setIsUrlValid(false);
+    } else {
+      setIsUrlValid(true);
+    }
+
+    if (!inputUrl) {
       dispatch(resetQuestion());
     }
   };
@@ -66,17 +80,25 @@ const Questionnaire = () => {
         <form onSubmit={handleSubmitForm} className="url-form">
           <input
             type="text"
-            className="url-input"
+            className={`url-input ${!isUrlValid ? "invalid" : ""}`}
             value={url}
             onChange={handleURLChange}
             placeholder="Enter website URL"
             required
           />
-          {!questionData.loading && (
-            <button type="submit" className="btn-primary">
-              Start Questionnaire
-            </button>
-          )}
+          <p className="url-info">
+            Please enter a valid URL starting with <strong>http://</strong> or{" "}
+            <strong>https://</strong>.
+          </p>
+          <button
+            type="submit"
+            className={`btn-primary ${
+              !url || !isUrlValid ? "btn-disabled" : ""
+            }`}
+            disabled={!url || !isUrlValid}
+          >
+            Start Questionnaire
+          </button>
         </form>
 
         {questionData.loading && (
