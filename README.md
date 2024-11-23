@@ -112,13 +112,10 @@ The app should be running with:
 2. Enter a website URL to start the questionnaire generation process.
 3. Answer the generated questions.
 
-## Screenshots
+## Screenshot
 
-<img width="1436" alt="image" src="https://github.com/user-attachments/assets/914647b6-3615-4ee4-af39-498d5ae02e74">
+<img width="1435" alt="image" src="https://github.com/user-attachments/assets/ae547e95-cc07-44e0-b633-13d220b2b12f">
 
-<img width="1437" alt="image" src="https://github.com/user-attachments/assets/72fd8e81-a7a4-464d-a60a-baf8459ade9b">
-
-<img width="1436" alt="image" src="https://github.com/user-attachments/assets/dc8cfaae-a597-416e-bc7f-ebdcbb075f0c">
 
 ## Project Structure
 
