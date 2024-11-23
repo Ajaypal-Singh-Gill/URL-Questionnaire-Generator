@@ -6,7 +6,7 @@ import "./Questionnaire.css";
 const Questionnaire = () => {
   const [url, setUrl] = useState("");
   const dispatch = useDispatch();
-  const questionData = useSelector((state) => state.question);
+  const questionData = useSelector((state) => state?.question);
   const [responses, setResponses] = useState({});
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
@@ -88,7 +88,7 @@ const Questionnaire = () => {
         {questionData.questions && questionData.questions.length > 0 && (
           <div className="question-card">
             <h2 className="question-title">
-              {questionData.questions[currentQuestionIndex].question}
+              {questionData.questions[currentQuestionIndex]?.question}
             </h2>
             <ul className="options-list">
               {questionData.questions[currentQuestionIndex].options.map(

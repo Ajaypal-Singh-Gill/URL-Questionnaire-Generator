@@ -1,6 +1,9 @@
 import scrapy
 from scrapy.crawler import CrawlerProcess
-import sys
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 
 class ContentSpider(scrapy.Spider):
     name = 'content_spider'
@@ -11,18 +14,20 @@ class ContentSpider(scrapy.Spider):
 
     def parse(self, response):
         # Save the scraped content to a file
-        with open('scraped_content.txt', 'w', encoding='utf-8') as f:
+        filename = f"scraped_content_{hash(response.url)}.txt"  # Unique file per URL
+        with open(filename, 'w', encoding='utf-8') as f:
             f.write(response.text)
-        print(f"Scraped content saved for URL: {response.url}")
+        logging.info(f"Scraped content saved for URL: {response.url}")
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please provide a URL to scrape.")
-        sys.exit(1)
 
-    url = sys.argv[1]
-
-    # Basic Scrapy process with minimal settings
-    process = CrawlerProcess()
+def run_scrapy_spider(url):
+    """
+    Run the Scrapy spider programmatically.
+    """
+    logging.info(f"Starting Scrapy spider for URL: {url}")
+    process = CrawlerProcess(settings={
+        'LOG_LEVEL': 'DEBUG',  # Set Scrapy log level
+    })
     process.crawl(ContentSpider, url=url)
-    process.start()
+    process.start()  # Block until the spider completes
+    logging.info(f"Scrapy spider finished for URL: {url}")

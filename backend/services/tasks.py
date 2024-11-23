@@ -1,12 +1,36 @@
 import logging
-from utils.scraping_utils import run_scrapy_spider, read_scraped_content
+from utils.scraping_utils import read_scraped_content
 from services.cache_service import set_cache_data
 from services.db_service import update_url_record_status, create_content_record
 from services.intent_question_generator import clean_scraped_content, generate_intent_based_questions, parse_questions_and_options
 import json
 from celery_config import app
 from db.dbconfig import get_db
+import requests
 
+def scrape_and_save_content(url):
+    """
+    Scrapes the entire content of a webpage and saves it to a text file.
+    
+    Args:
+        url (str): The URL of the webpage to scrape.
+        file_name (str): The name of the file to save the content to.
+    """
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+
+        # Get raw HTML content
+        html_content = response.text
+
+        with open('scraped_content.txt', 'w', encoding='utf-8') as file:
+            file.write(html_content)
+        print(f"Full HTML content saved to scraped_content.txt")
+        return True
+    except Exception as e:
+        print(f"Error fetching page: {e}")
+        return False
+    
 @app.task(bind=True, max_retries=3)
 def scrape_and_generate_questions(self, url, save_to_db, url_record_id=None):
     """
@@ -16,7 +40,7 @@ def scrape_and_generate_questions(self, url, save_to_db, url_record_id=None):
 
         logging.info(f"Starting web scrapping for URL: {url}")
         # Step 1: Run the scraper
-        if not run_scrapy_spider(url):
+        if not scrape_and_save_content(url):
             raise Exception(f"Scraping failed for URL: {url}")
 
         # Step 2: Process scraped content
