@@ -17,18 +17,26 @@ A tool that takes a website URL as input, scrapes its content and generates a dy
 - [API Documentation](#api-documentation)
 - [Contributing](#contributing)
 - [Future Work](#future-work)
+- [Live Demo](#live-demo)
 
 ## Technologies Used
 
 - **Frontend**: React, Redux
-- **Backend**: Python, Flask, Scrapy (for scraping), OpenAI (for question generation)
-- **Database**: Postgresql (for storing questions),
+- **Backend**: Python, Flask, BeautifulSoup and Requests (for scraping), OpenAI (for question generation)
+- **Database**: PostgreSQL (for storing questions)
+- **Caching**: Redis (for caching repeated URL submissions)
+- **Async Processing**: Celery (for task queuing)
+- **Containerization**: Docker (for consistent deployment environments)
 
 ## Features
 
 - **Dynamic Question Generation**: Uses scraped website content to generate relevant questions.
 - **Progress Tracking**: Displays a progress bar as users complete questions.
 - **Responsive Design**: Designed for desktop and mobile with flexible styling.
+- **Task Queuing**: Web scraping and question generation tasks are queued using Celery for efficient processing.
+- **URL Caching**: Redis ensures repeated URL submissions are cached to prevent redundant scraping.
+- **Dockerized Deployment**: Easily set up and deploy the application in consistent environments using Docker.
+- **Public Accessibility**: Host the project infra(Frontend, Backend, Redis, Postgresql) on render.
 
 ## Getting Started
 
@@ -36,6 +44,8 @@ A tool that takes a website URL as input, scrapes its content and generates a dy
 
 - **Node.js** and **npm** for the frontend.
 - **Python 3.8+** and **pip** for the backend.
+- **Redis** for caching.
+- **Docker** for containerized deployment.
 
 ### Installation
 
@@ -47,6 +57,8 @@ Navigate to the backend directory:
 cd backend
 ```
 
+Option 1: Run without docker
+
 Install the required Python packages:
 
 ```bash
@@ -57,6 +69,21 @@ Start the Flask server:
 
 ```bash
 python app.py
+```
+
+Option 1: Run inside docker
+
+Option 2: Run with Docker
+Ensure Docker is installed and running on your machine. Build the Docker image:
+
+```bash
+docker build -t backend-image .
+```
+
+Run the Docker container:
+
+```bash
+docker run -p 5001:5001 backend-image
 ```
 
 #### Frontend
@@ -88,7 +115,13 @@ The app should be running with:
 
 Set up the following environment variables for the backend directly in your system environment:
 
-- **OPENAI_API_KEY**: API key for OpenAI for generating questions.
+- **OPENAI_API_KEY**
+- **POSTGRES_URL**
+- **REDIS_URL**
+- **CELERY_REDIS_BROKER_URL**
+- **CELERY_REDIS_BACKEND_URL**
+- **FE_URL**
+- **ENV**
 
 ## Usage
 
@@ -105,36 +138,6 @@ Set up the following environment variables for the backend directly in your syst
 <img width="1436" alt="image" src="https://github.com/user-attachments/assets/dc8cfaae-a597-416e-bc7f-ebdcbb075f0c">
 
 ## Project Structure
-
-### Frontend
-
-```plaintext
-frontend/
-├── src/
-│   ├── components/
-│   │   └── Questionnaire.js       # Main questionnaire component
-│   ├── redux/
-│   │   ├── actions.js             # Redux actions for question management
-│   │   ├── questionReducer.js     # Reducer for question data
-│   │   ├── rootReducer.js         # Root reducer
-│   │   └── store.js               # Redux store
-│   ├── App.js                     # Main application component
-│   └── App.css                    # Main CSS for the app
-```
-
-### Backend
-
-```plaintext
-backend/
-├── db/                            # Database connection and setup
-├── routes/                        # API routes
-├── services/                      # Core backend services
-│   ├── db_service.py              # Database service for CRUD operations
-│   ├── intent_question_generator.py  # For generating questions based on intent
-│   └── question_service.py        # Main logic for handling question processing
-├── app.py                         # Flask application entry point
-└── requirements.txt               # Python dependencies
-```
 
 ## API Documentation
 
@@ -183,8 +186,8 @@ Accepts a URL, scrapes content, and generates a set of questions based on the co
 
 4. Push to your fork and submit a pull request.
 
-## Future Work
+## Live Demo
 
-- **Real-Time Questionnaire Injection**: Develop a browser extension or embeddable JavaScript to allow questionnaires to pop up automatically when a user visits a specific website.
+You can access the live version of the application here:
 
-- **Async Web Scraping**: Implement asynchronous web scraping capabilities, allowing scraping tasks to run in the background and return results as they complete.
+Frontend: https://url-questionnaire-generator-1.onrender.com/
