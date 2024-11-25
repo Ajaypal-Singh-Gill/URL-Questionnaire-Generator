@@ -107,6 +107,9 @@ const Questionnaire = () => {
             questionnaire once the process has been completed.
           </div>
         )}
+        {questionData.error && (
+          <div className="loading-text">{questionData.error}</div>
+        )}
         {questionData.questions && questionData.questions.length > 0 && (
           <div className="question-card">
             <h2 className="question-title">

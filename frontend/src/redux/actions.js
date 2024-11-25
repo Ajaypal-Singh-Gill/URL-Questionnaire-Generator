@@ -28,7 +28,12 @@ export const generateQuestion = (url) => async (dispatch) => {
           config
         );
 
-        if (resultResponse.data.questions.length > 0) {
+        if (resultResponse.data.status == false) {
+          dispatch({
+            type: "GENERATE_QUESTION_FAIL",
+            payload: resultResponse.data.error,
+          });
+        } else if (resultResponse.data.questions.length > 0) {
           // Questions are ready, dispatch success
           dispatch({
             type: "GENERATE_QUESTION_SUCCESS",
