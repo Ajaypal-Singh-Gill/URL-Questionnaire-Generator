@@ -76,7 +76,7 @@ def scrape_and_generate_questions(self, url, save_to_db, url_record_id=None):
             self.retry(exc=e, countdown=5)  # Retry after 5 seconds
 
         # Final failure: Cache a temporary failure status
-        # set_cache_data(url, {'status': "failed"}, expiry=300)  # Short TTL for failure
+        set_cache_data(url, {'status': 'failed', 'error': 'Not able to scrap the URL'}, expiry=300)  # Short TTL for failure
         # if save_to_db and url_record_id:
         #     update_url_record_status(None, url_record_id, "failed")
         raise e

@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install gunicorn
 RUN pip install "jinja2<3.1"
 RUN pip install psutil
-
+RUN pip install tld
 
 COPY requirements.txt /app/
 
